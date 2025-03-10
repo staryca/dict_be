@@ -35,18 +35,22 @@ CREATE TEXT SEARCH CONFIGURATION belarusian (PARSER=default);
 
 ### Настройка канфігурацыі
 ```sql
-ALTER TEXT SEARCH CONFIGURATION belarusian ALTER MAPPING FOR hword, hword_part, word WITH belarusian_huns, belarusian_stem;
+ALTER TEXT SEARCH CONFIGURATION belarusian ALTER MAPPING 
+    FOR hword, hword_part, word WITH belarusian_huns, belarusian_stem;
 
 ALTER TEXT SEARCH CONFIGURATION belarusian ALTER MAPPING 
     FOR int, uint, numhword, numword, hword_numpart, email, float, file, url, url_path, version, host, sfloat WITH simple;
 
-ALTER TEXT SEARCH CONFIGURATION belarusian ALTER MAPPING FOR asciihword, asciiword, hword_asciipart WITH english_stem;
+ALTER TEXT SEARCH CONFIGURATION belarusian ALTER MAPPING 
+    FOR asciihword, asciiword, hword_asciipart WITH english_stem;
 ```
 
 ### Праверка пошуку
 ```sql
-SELECT id, _column_, ts_rank(to_tsvector('belarusian', _column_), websearch_to_tsquery('belarusian', 'чорны')),
+SELECT id, _column_,
+    ts_rank(to_tsvector('belarusian', _column_), websearch_to_tsquery('belarusian', 'чорны')),
     ts_headline('belarusian', _column_, websearch_to_tsquery('belarusian', 'чорны'))
-  FROM _table_ WHERE to_tsvector('belarusian', _column_) @@ websearch_to_tsquery('belarusian', 'чорны')
+  FROM _table_ 
+  WHERE to_tsvector('belarusian', _column_) @@ websearch_to_tsquery('belarusian', 'чорны')
   ORDER BY ts_rank(to_tsvector('belarusian', _column_), websearch_to_tsquery('belarusian', 'чорны')) DESC;
 ```
