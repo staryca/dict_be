@@ -47,7 +47,7 @@ ALTER TEXT SEARCH CONFIGURATION belarusian ALTER MAPPING
 
 ### Праверка пошуку
 ```sql
-SELECT id, _column_,
+SELECT _column_,
     ts_rank(to_tsvector('belarusian', _column_), websearch_to_tsquery('belarusian', 'чорны')),
     ts_headline('belarusian', _column_, websearch_to_tsquery('belarusian', 'чорны'))
   FROM _table_ 
